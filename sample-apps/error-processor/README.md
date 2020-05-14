@@ -1,4 +1,4 @@
-# Error Processing with CloudWatch Logs and X-Ray
+# Error processing with CloudWatch Logs and X-Ray
 
 This sample application triggers a Lambda function when CloudWatch Logs detects the word ERROR in a log stream. The function downloads the full log stream and the X-Ray trace for the request that caused the error. It stores both in an Amazon S3 bucket.
 
@@ -16,15 +16,15 @@ Use the following instructions to deploy the sample application. For more inform
 # Requirements
 - [Node.js 10 with npm](https://nodejs.org/en/download/releases/)
 - The Bash shell. For Linux and macOS, this is included by default. In Windows 10, you can install the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to get a Windows-integrated version of Ubuntu and Bash.
-- [The AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+- [The AWS CLI v1](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
 
 # Setup
 Download or clone this repository.
 
-    $ git clone git@github.com:awsdocs/aws-lambda-developer-guide.git
+    $ git clone https://github.com/awsdocs/aws-lambda-developer-guide.git
     $ cd aws-lambda-developer-guide/sample-apps/error-processor
 
-To create a new bucket for deployment artifacts, run `1-create-bucket.sh`. Or, if you already have a bucket, create a file named `bucket-name.txt` that contains the name of your bucket.
+To create a new bucket for deployment artifacts, run `1-create-bucket.sh`.
 
     error-processor$ ./1-create-bucket.sh
     make_bucket: lambda-artifacts-a5e491dbb5b22e0d
@@ -68,6 +68,8 @@ To generate logs and errors, invoke the random error function.
         "ExecutedVersion": "$LATEST"
     }
     {"errorType":"function.MaxDepthError","errorMessage":"Maximum depth reached: 9","trace":["function.MaxDepthError: Maximum depth reached: 9","    at Runtime.myFunction [as handler] (/var/task/index.js:30:17)","    at Runtime.handleOnce (/var/runtime/Runtime.js:66:25)"],"depth":9}
+
+Let the script invoke the function a few times and then press `CRTL+C` to exit.
 
 This function generates errors for a configurable percentage of invocations. When an error does not occur, it invokes itself recursively until one does. The event (`event.json`) provides a base error rate and maximum recursion depth.
 

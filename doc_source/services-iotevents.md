@@ -6,7 +6,7 @@ To use AWS IoT Events, you define a detector model, which is a state\-machine mo
 
 When the event occurs, AWS IoT Events invokes your Lambda function asynchronously\. It provides information about the detector model and the event that triggered the action\. The following example message event is based on the definitions in the AWS IoT Events [simple step\-by\-step example](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-simple-example.html)\. 
 
-**Example Example AWS IoT Events Message Event**  
+**Example Example AWS IoT Events message event**  
 
 ```
  
@@ -51,10 +51,10 @@ You need to grant permission for the AWS IoT Events service to invoke your Lambd
 
 ```
 $ aws lambda add-permission --function-name my-function \
---statement-id iot-events --action "lambda:InvokeFunction" principal iotevents.amazonaws.com
+--statement-id iot-events --action "lambda:InvokeFunction" --principal iotevents.amazonaws.com
 {
     "Statement": "{\"Sid\":\"iot-events\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"iotevents.amazonaws.com\"},\"Action\":\"lambda:InvokeFunction\",\"Resource\":\"arn:aws:lambda:us-west-2:123456789012:function:my-function\"}"
 }
 ```
 
-For more information about using Lambda with AWS IoT Events, see [Using AWS IoT Events with Other Services](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-with-others.html)\.
+For more information about using Lambda with AWS IoT Events, see [Using AWS IoT Events with other services](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-with-others.html)\.

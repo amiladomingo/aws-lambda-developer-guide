@@ -1,4 +1,4 @@
-# Processing a Kinesis Stream with Database Resources in a VPC
+# Processing a Kinesis stream with database resources in a VPC
 
 This sample application processes records from an Amazon Kinesis stream to create and update lists. It uses a private VPC to connect to an Amazon Relational Database Service (Amazon RDS) database. It uses a VPC endpoint to connect to Amazon DynamoDB. The application also uses AWS Secrets Manager, AWS X-Ray, and AWS CodeDeploy.
 
@@ -41,7 +41,7 @@ To deploy the sample application, you need the following tools:
 
 - [Node.js 10 with npm](https://nodejs.org/en/download/releases/).
 - The Bash shell. For Linux and macOS, this is included by default. In Windows 10, you can install the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to get a Windows-integrated version of Ubuntu and Bash.
-- [The AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+- [The AWS CLI v1](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
 
 To run the sample application in AWS, you need permission to use Lambda and the following services:
 
@@ -61,10 +61,10 @@ Standard charges apply for each service.
 
 Download or clone this repository.
 
-    $ git clone git@github.com:awsdocs/aws-lambda-developer-guide.git
+    $ git clone https://github.com/awsdocs/aws-lambda-developer-guide.git
     $ cd aws-lambda-developer-guide/sample-apps/list-manager
 
-To create a new bucket for deployment artifacts, run `1-create-bucket.sh`. Or, if you already have a bucket, create a file named `bucket-name.txt` that contains the name of your bucket.
+To create a new bucket for deployment artifacts, run `1-create-bucket.sh`.
 
     list-manager$ ./1-create-bucket.sh
     make_bucket: lambda-artifacts-a5e491dbb5b22e0d
@@ -103,6 +103,8 @@ To invoke the function with a test event, run `6-invoke.sh`.
         "StatusCode": 200,
         "ExecutedVersion": "$LATEST"
     }
+
+Let the script invoke the function a few times and then press `CRTL+C` to exit.
 
 If that succeeds, send records to the Kinesis stream. The processor function's event source mapping pulls records from the stream and invokes the function.
 

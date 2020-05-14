@@ -1,6 +1,6 @@
 # API Gateway proxy integration with Node.js
 
-The sample application is a Lambda function that processes events from an API Gateway REST API. The API provides a public endpoint that you can access with a web browser or other HTTP client. When you send a request to the endpoint, the API serializes the request and sends it to the function. The function calls the Lambda API to get utilization data and returns it to the API in the required format.
+This sample application is a Lambda function that processes events from an API Gateway REST API. The API provides a public endpoint that you can access with a web browser or other HTTP client. When you send a request to the endpoint, the API serializes the request and sends it to the function. The function calls the Lambda API to get utilization data and returns it to the API in the required format.
 
 :warning: The application creates a public API endpoint that is accessible over the internet. When you're done testing, run the cleanup script to delete it.
 
@@ -17,15 +17,15 @@ Use the following instructions to deploy the sample application.
 # Requirements
 - [Node.js 10 with npm](https://nodejs.org/en/download/releases/)
 - The Bash shell. For Linux and macOS, this is included by default. In Windows 10, you can install the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to get a Windows-integrated version of Ubuntu and Bash.
-- [The AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
+- [The AWS CLI v1](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
 
 # Setup
 Download or clone this repository.
 
-    $ git clone git@github.com:awsdocs/aws-lambda-developer-guide.git
+    $ git clone https://github.com/awsdocs/aws-lambda-developer-guide.git
     $ cd aws-lambda-developer-guide/sample-apps/nodejs-apig
 
-To create a new bucket for deployment artifacts, run `1-create-bucket.sh`. Or, if you already have a bucket, create a file named `bucket-name.txt` that contains the name of your bucket.
+To create a new bucket for deployment artifacts, run `1-create-bucket.sh`.
 
     nodejs-apig$ ./1-create-bucket.sh
     make_bucket: lambda-artifacts-a5e491dbb5b22e0d
@@ -52,6 +52,8 @@ To invoke the function directly with a test event (`event.json`), run `3-invoke.
         "StatusCode": 200,
         "ExecutedVersion": "$LATEST"
     }
+
+Let the script invoke the function a few times and then press `CRTL+C` to exit.
 
 To invoke the function with the REST API, run the `4-get.sh` script. This script uses cURL to send a GET request to the API endpoint.
 

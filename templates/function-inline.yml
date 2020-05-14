@@ -1,8 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: An AWS Lambda application that uses the AWS Lambda API.
 Resources:
-  topic:
-    Type: AWS::SNS::Topic
   function:
     Type: AWS::Lambda::Function
     Properties: 
@@ -28,24 +26,43 @@ Resources:
             return lambda.getAccountSettings().promise()
           }
       Description: Blank application function
-      Environment:
-        Variables:
-          topic: !Ref topic
       Handler: index.handler
       MemorySize: 128
       Role: !GetAtt executionRole.Arn
       Runtime: nodejs12.x
       Timeout: 10
-      TracingConfig: 
+      TracingConfig:
         Mode: Active
+  scheduledEvent:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Scheduled event
+      ScheduleExpression: rate(2 minutes)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt function.Arn
+          Id: Function
+  invokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref function
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt scheduledEvent.Arn
   executionRole:
     Type: AWS::IAM::Role
     Properties:
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-        - arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess
-        - arn:aws:iam::aws:policy/AWSLambdaFullAccess
+        - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
         - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - PolicyName: read-lambdasettings
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+            - Effect: Allow
+              Action: lambda:GetAccountSettings
+              Resource: '*'
       AssumeRolePolicyDocument: |
         {
           "Version": "2012-10-17",
